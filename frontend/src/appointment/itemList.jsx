@@ -20,12 +20,17 @@ class ItemList extends Component {
 
     renderRows() {
         const list = this.props.appointmentlist || []
+        
+        if(list.length == 0) return
+             
         return list.map((item, index) => (
             <tr key={index}>
                 <td><Field name={`${this.props.field}[${index}].data`} component={Input}
                     placeholder='Data' readOnly={this.props.readOnly} /></td>
-                <td><Field name={`${this.props.field}[${index}].obs`} component={Input}
+
+                <td><Field name={`${this.props.field}[${index}].observacao`} component={Input}
                     placeholder='Descrição do compromisso' readOnly={this.props.readOnly} /></td>
+
                 <td><Field name={`${this.props.field}[${index}].status`} component={Input}
                     placeholder='Status' readOnly={this.props.readOnly} /></td>
                 <td>

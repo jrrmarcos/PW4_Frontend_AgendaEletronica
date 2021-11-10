@@ -11,7 +11,7 @@ export default props => (
     <Router history={hashHistory}>
         <Route path='/' component={AuthOrApp}>
             <IndexRoute component={Dashboard} />
-            <Route path='usuarios' component={Users} />
+            {/* <Route path='usuarios' component={Users} /> */}
             <Route path='contatos' component={Contacts} />
             <Route path='compromissos' component={Appointment} />
         </Route>

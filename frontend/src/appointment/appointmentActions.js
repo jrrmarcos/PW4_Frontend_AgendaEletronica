@@ -5,9 +5,10 @@ import { showTabs, selectTab } from "../common/tab/tabActions";
 
 const BASE_URL = "http://localhost:8080";
 const INITIAL_VALUES = {};
+var usuario_id; 
 
 export function getList(userId) {
-  console.log("userId: ", userId);
+  console.log("userId em CompromissoForm getList: ", userId);
   const request = axios.get(`${BASE_URL}/meusCompromissos/${userId}`);
   return {
     type: "APPOINTMENT_LIST_FETCHED",
@@ -17,8 +18,8 @@ export function getList(userId) {
 
 export function create(values) {
   console.log("value em create: ", values);
-  values.user_id = JSON.parse(localStorage.getItem("agenda_user")).id;
-  console.log("value em create depois: ", values);
+  //values.contato_id = JSON.parse(localStorage.getItem("agenda_user")).id;
+  values.contato_id = usuario_id;
   return submit("inserirCompromisso", values, "post");
 }
 
@@ -33,17 +34,16 @@ export function remove(values) {
 
 function submit(url, values, method) {
   return (dispatch) => {
-    var userId = values.id;
+    //var userId = values.id;
     const id = values.id ? values.id : null;
-    console.log("values.user_id ?: ", values.user_id);
     console.log("values em submit: ", values);
     axios[method](`${BASE_URL}/${url}`, values)
       .then((resp) => {
         toastr.success("Sucesso", "Operação Realizada com sucesso.");
-        dispatch(init(userId));
+        dispatch(init(usuario_id));
       })
       .catch((e) => {
-        console.log("e: ", e.response);
+        console.log("Printando valor de e: ", e);
         if (e.response.status == 409) {
           if (
             typeof e.response.data != "string" &&
@@ -55,10 +55,10 @@ function submit(url, values, method) {
             console.log("entrou tipo", e.response.data);
             toastr.error("Erro", e.response.data);
           }
-          dispatch(init(userId));
+          dispatch(init(usuario_id));
         } else {
           toastr.error("Erro", "Não foi possível atender a requisição!");
-          dispatch(init(userId));
+          dispatch(init(usuario_id));
         }
       });
   };
@@ -81,6 +81,9 @@ export function showDelete(appointment) {
 }
 
 export function init(userId) {
+  console.log("Compromissos Action", userId)
+  usuario_id = JSON.parse(localStorage.getItem("agenda_user")).id;
+  console.log("Usuário id em init form compromisso", usuario_id)
   return [
     showTabs("tabList", "tabCreate"),
     selectTab("tabList"),

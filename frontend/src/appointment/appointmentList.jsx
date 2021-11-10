@@ -13,7 +13,7 @@ class AppointmentList extends Component {
         return list.map(bc => (
             <tr key={bc.id}>
                 <td>{new Date(bc.data).toLocaleString()}</td>
-                <td>{bc.obs}</td>
+                <td>{bc.observacao}</td>
                 <td>{bc.status}</td>
                 <td>
                     <button className='btn btn-warning' onClick={() => this.props.showUpdate(bc)}>

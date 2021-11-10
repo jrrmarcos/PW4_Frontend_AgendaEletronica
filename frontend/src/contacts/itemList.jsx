@@ -20,6 +20,9 @@ class ItemList extends Component {
 
     renderRows() {
         const list = this.props.contactslist || []
+
+        if(list.length == 0) return
+             
         return list.map((item, index) => (
             <tr key={index}>
                 <td><Field name={`${this.props.field}[${index}].nome`} component={Input}

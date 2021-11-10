@@ -8,8 +8,8 @@ import Row from '../common/layout/row'
 
 class AppointmentForm extends Component {
     render() {
-        const { handleSubmit, readOnly, id, data, obs, participantes, endereco, status, user_id, userId } = this.props
-        console.log("userId em appointmentForm: ", userId);
+        const {handleSubmit, readOnly, id, data, observacao, participantes, endereco, status, contato_id, userId} = this.props
+        console.log("userId em appointmentForm Linha 12: ", userId);
         return (
             <form role='form' onSubmit={handleSubmit}>
                 <div className='box-body'>
@@ -18,7 +18,7 @@ class AppointmentForm extends Component {
                             label='Data e Hora' cols='12 4' type="datetime-local" placeholder='' />
                     </Row>
                     <Row>
-                        <Field name='obs' component={LabelAndInput} readOnly={readOnly}
+                        <Field name='observacao' component={LabelAndInput} readOnly={readOnly}
                             label='Descrição:' cols='12 4' placeholder='Informe a descrição' />
                     </Row>
                     <Row>
@@ -51,12 +51,13 @@ const selector = formValueSelector('appointmentForm')
 const mapStateToProps = state => ({
     id: selector(state, 'id'),
     data: selector(state, 'data'),
-    obs: selector(state, 'obs'),
+    observacao: selector(state, 'observacao'),
     participantes: selector(state, 'participantes'),
     endereco: selector(state, 'endereco'),
     status: selector(state, 'status'),
-    user_id: selector(state, 'user_id'),
+    contato_id: selector(state, 'contato_id'),
     userId: state.auth.user.id,
 })
+
 const mapDispatchToProps = dispatch => bindActionCreators({ init }, dispatch)
 export default connect(mapStateToProps, mapDispatchToProps)(AppointmentForm)
