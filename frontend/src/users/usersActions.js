@@ -23,7 +23,6 @@ export function update(values) {
 }
 
 export function remove(values) {
-  console.log("value em delete: ", values);
   return submit(`excluirUsuario/${values.id}`, values, "delete");
 }
 
@@ -72,9 +71,9 @@ export function showDelete(user) {
 
 export function init() {
   return [
-    showTabs("tabList", "tabCreate"),
-    selectTab("tabList"),
-    getList(),
+    //showTabs("tabList", "tabCreate"),
+    //selectTab("tabList"),
+    //getList(),
     initialize("usersForm", INITIAL_VALUES),
   ];
 }

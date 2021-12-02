@@ -3,13 +3,13 @@ import { toastr } from "react-redux-toastr";
 import { reset as resetForm, initialize } from "redux-form";
 import { showTabs, selectTab } from "../common/tab/tabActions";
 
-const BASE_URL = "http://localhost:8080";
-const INITIAL_VALUES = {};
+const BASE_URL = "http://localhost:8080"; //Variável a ser utilizada para não ficar repitindo a url no código
+const INITIAL_VALUES = {}; //Reseta os valores do formulário
 var usuario_id; 
 
+//-----------Bloco que consulta as rotas do back-end para tomada de decisões
 export function getList(userId) {
-  console.log("userId em CompromissoForm getList: ", userId);
-  const request = axios.get(`${BASE_URL}/meusCompromissos/${userId}`);
+  const request = axios.get(`${BASE_URL}/meusCompromissos/${userId}`); //Axios para fazer requisições. Busca na url a rota meusCompromissos quando o Id do usuário for o atual logado
   return {
     type: "APPOINTMENT_LIST_FETCHED",
     payload: request,
@@ -17,33 +17,28 @@ export function getList(userId) {
 }
 
 export function create(values) {
-  console.log("value em create: ", values);
-  //values.contato_id = JSON.parse(localStorage.getItem("agenda_user")).id;
-  values.contato_id = usuario_id;
-  return submit("inserirCompromisso", values, "post");
+  values.contato_id = usuario_id; //pegando o campo contato id do JSON e setando como o id do usuário logado, para atribuir a ele o compromisso
+  return submit("inserirCompromisso", values, "post"); //insere o compromisso
 }
 
 export function update(values) {
-  return submit("alterarCompromisso", values, "put");
+  return submit("alterarCompromisso", values, "put"); //altera um compromisso
 }
 
 export function remove(values) {
-  console.log("value em delete: ", values);
-  return submit(`excluirCompromisso/${values.id}`, values, "delete");
+  return submit(`excluirCompromisso/${values.id}`, values, "delete"); //deleta um compromisso
 }
+//------------------------
 
 function submit(url, values, method) {
   return (dispatch) => {
-    //var userId = values.id;
     const id = values.id ? values.id : null;
-    console.log("values em submit: ", values);
     axios[method](`${BASE_URL}/${url}`, values)
       .then((resp) => {
         toastr.success("Sucesso", "Operação Realizada com sucesso.");
         dispatch(init(usuario_id));
       })
       .catch((e) => {
-        console.log("Printando valor de e: ", e);
         if (e.response.status == 409) {
           if (
             typeof e.response.data != "string" &&
@@ -52,7 +47,6 @@ function submit(url, values, method) {
             e.response.data.forEach((error) => toastr.error("Erro", error.msg));
           }
           if (typeof e.response.data == "string") {
-            console.log("entrou tipo", e.response.data);
             toastr.error("Erro", e.response.data);
           }
           dispatch(init(usuario_id));
@@ -64,30 +58,30 @@ function submit(url, values, method) {
   };
 }
 
+//---Bloco que toma a ação dependendo do que o usuário escolher fazer
 export function showUpdate(appointment) {
   return [
-    showTabs("tabUpdate"),
-    selectTab("tabUpdate"),
-    initialize("appointmentForm", appointment),
+    showTabs("tabUpdate"), //template buscado do appointment.jsx
+    selectTab("tabUpdate"), //template buscado do appointment.jsx
+    initialize("appointmentForm", appointment), //template buscado do appointmentForm.jsx
   ];
 }
 
 export function showDelete(appointment) {
   return [
-    showTabs("tabDelete"),
-    selectTab("tabDelete"),
-    initialize("appointmentForm", appointment),
+    showTabs("tabDelete"),//template buscado do appointment.jsx
+    selectTab("tabDelete"),//template buscado do appointment.jsx
+    initialize("appointmentForm", appointment),//template buscado do appointmentForm.jsx
   ];
 }
 
 export function init(userId) {
-  console.log("Compromissos Action", userId)
-  usuario_id = JSON.parse(localStorage.getItem("agenda_user")).id;
-  console.log("Usuário id em init form compromisso", usuario_id)
+  usuario_id = JSON.parse(localStorage.getItem("agenda_user")).id; //pegando o id do usuário
   return [
-    showTabs("tabList", "tabCreate"),
-    selectTab("tabList"),
-    getList(userId),
-    initialize("appointmentForm", INITIAL_VALUES),
+    showTabs("tabList", "tabCreate"), //Exibindo as opções de listar e incluir
+    selectTab("tabList"), //Exibindo a lista dos compromissoss
+    getList(userId), //para o usuário logado (id)
+    initialize("appointmentForm", INITIAL_VALUES), //reseta o formulário de compromissos
   ];
+//-----------------------------------
 }

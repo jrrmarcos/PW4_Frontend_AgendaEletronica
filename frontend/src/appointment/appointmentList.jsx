@@ -4,15 +4,18 @@ import {connect} from 'react-redux'
 import {getList, showUpdate, showDelete} from './appointmentActions'
 
 class AppointmentList extends Component {
-    componentWillMount() {
-        this.props.getList()
+    componentWillMount() { //chamado toda vez que montarmos esse componente
+        this.props.getList() //pega a lista do appointmentActions.js
     }
 
     renderRows() {
         const list = this.props.appointmentList || []
         return list.map(bc => (
-            <tr key={bc.id}>
-                <td>{new Date(bc.data).toLocaleString()}</td>
+            //Objeto mostrado ao montar o componente Lista de Compromissos
+            //No caso, abaixo é exibido a Data (transformada em string), observação e status
+            //Os botões nas ações, chamam as funções do appointmentActions.js e fazem o que foi definido lá
+            <tr key={bc.id}> 
+                <td>{new Date(bc.data).toLocaleString()}</td> 
                 <td>{bc.observacao}</td>
                 <td>{bc.status}</td>
                 <td>
@@ -27,6 +30,7 @@ class AppointmentList extends Component {
         ))
     }
 
+    //Página montada com headers e funcionalidades html
     render() {
         return (
             <div>

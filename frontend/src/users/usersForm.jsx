@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {reduxForm, Field, formValueSelector} from 'redux-form'
-
 import {init} from './usersActions'
 import LabelAndInput from '../common/form/labelAndInput'
 import InputReadOnlyElement from '../common/form/inputReadOnlyElement'

@@ -16,7 +16,7 @@ class Auth extends Component {
         this.state = { loginMode: true }
     }
     changeMode() {
-        this.setState({ loginMode: !this.state.loginMode })
+        this.setState({ loginMode: !this.state.loginMode }) //valida o que o usuário quer fazer, se logar ou cadastrar
     }
     onSubmit(values) {
         const { login, signup } = this.props

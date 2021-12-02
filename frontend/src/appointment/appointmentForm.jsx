@@ -9,7 +9,6 @@ import Row from '../common/layout/row'
 class AppointmentForm extends Component {
     render() {
         const {handleSubmit, readOnly, id, data, observacao, participantes, endereco, status, contato_id, userId} = this.props
-        console.log("userId em appointmentForm Linha 12: ", userId);
         return (
             <form role='form' onSubmit={handleSubmit}>
                 <div className='box-body'>
