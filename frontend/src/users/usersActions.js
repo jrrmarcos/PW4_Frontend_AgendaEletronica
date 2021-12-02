@@ -3,11 +3,12 @@ import {toastr} from "react-redux-toastr";
 import {reset as resetForm, initialize} from "redux-form";
 import {showTabs, selectTab} from "../common/tab/tabActions";
 
-const BASE_URL = "http://localhost:8080";
-const INITIAL_VALUES = {};
+const BASE_URL = "http://localhost:8080"; //Variável a ser utilizada para não ficar repitindo a url no código
+const INITIAL_VALUES = {}; //Reseta os valores do formulário
 
+//-----------Bloco que consulta as rotas do back-end para tomada de decisões
 export function getList() {
-  const request = axios.get(`${BASE_URL}/listarUsuarios`);
+  const request = axios.get(`${BASE_URL}/listarUsuarios`); //Axios para fazer requisições. Busca na url a rota meusCompromissos quando o Id do usuário for o atual logado
   return {
     type: "USERS_LIST_FETCHED",
     payload: request,
@@ -15,16 +16,17 @@ export function getList() {
 }
 
 export function create(values) {
-  return submit("adicionarUsuario", values, "post");
+  return submit("adicionarUsuario", values, "post"); //insere o usuário
 }
 
 export function update(values) {
-  return submit("alterarUsuario", values, "put");
+  return submit("alterarUsuario", values, "put"); //altera um usuário
 }
 
 export function remove(values) {
-  return submit(`excluirUsuario/${values.id}`, values, "delete");
+  return submit(`excluirUsuario/${values.id}`, values, "delete"); //deleta um usuário
 }
+//------------------------
 
 function submit(url, values, method) {
   return (dispatch) => {
@@ -53,6 +55,7 @@ function submit(url, values, method) {
   };
 }
 
+//---Bloco que toma a ação dependendo do que o usuário escolher fazer
 export function showUpdate(user) {
   return [
     showTabs("tabUpdate"),
@@ -71,9 +74,10 @@ export function showDelete(user) {
 
 export function init() {
   return [
-    //showTabs("tabList", "tabCreate"),
-    //selectTab("tabList"),
-    //getList(),
-    initialize("usersForm", INITIAL_VALUES),
+    showTabs("tabList", "tabCreate"), //Exibindo as opções de listar e incluir
+    selectTab("tabList"), //Exibindo a lista dos compromissoss
+    getList(), 
+    initialize("usersForm", INITIAL_VALUES), //reseta o formulário de usuários
   ];
+  //-----------------------------------
 }

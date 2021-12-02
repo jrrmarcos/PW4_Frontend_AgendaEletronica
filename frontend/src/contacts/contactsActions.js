@@ -3,12 +3,12 @@ import { toastr } from "react-redux-toastr";
 import { reset as resetForm, initialize } from "redux-form";
 import { showTabs, selectTab } from "../common/tab/tabActions";
 
-const BASE_URL = "http://localhost:8080";
-const INITIAL_VALUES = {};
+const BASE_URL = "http://localhost:8080"; //Variável a ser utilizada para não ficar repitindo a url no código
+const INITIAL_VALUES = {}; //Reseta os valores do formulário
 
+//------------Bloco que consulta as rotas do back-end para tomada de decisões
 export function getList(userId) {
-  console.log("userId: ", userId);
-  const request = axios.get(`${BASE_URL}/meusContatos/${userId}`);
+  const request = axios.get(`${BASE_URL}/meusContatos/${userId}`); //Axios para fazer requisições. Busca na url a rota meusContatos quand o Id do usuário for o atual (logado)
   return {
     type: "CONTACTS_LIST_FETCHED",
     payload: request,
@@ -16,27 +16,23 @@ export function getList(userId) {
 }
 
 export function create(values) {
-  console.log("value em create: ", values);
-  values.contato_id = JSON.parse(localStorage.getItem("agenda_user")).id;
-  console.log("value em create depois: ", values);
-  return submit("adicionarContato", values, "post");
+  values.contato_id = JSON.parse(localStorage.getItem("agenda_user")).id; //atribuindo o id igual ao do enviado no JSON
+  return submit("adicionarContato", values, "post"); //insere o contato
 }
 
 export function update(values) {
-  return submit("alterarContato", values, "put");
+  return submit("alterarContato", values, "put"); //altera um contato
 }
 
 export function remove(values) {
-  console.log("value em delete: ", values);
-  return submit(`excluirContato/${values.id}`, values, "delete");
+  return submit(`excluirContato/${values.id}`, values, "delete"); //remove o contato passando o id do compromisso como parametro na requisição
 }
+//----------------------------------
 
 function submit(url, values, method) {
   return (dispatch) => {
     var userId = values.contato_id;
     const id = values.id ? values.id : null;
-    console.log("values.user_id ?: ", values.user_id);
-    console.log("values em submit: ", values);
     axios[method](`${BASE_URL}/${url}`, values)
       .then((resp) => {
         toastr.success("Sucesso", "Operação Realizada com sucesso.");
@@ -64,27 +60,29 @@ function submit(url, values, method) {
   };
 }
 
+//Bloco que toma a ação dependendo do que o usuário escolher fazer
 export function showUpdate(contact) {
   return [
-    showTabs("tabUpdate"),
-    selectTab("tabUpdate"),
-    initialize("contactsForm", contact),
+    showTabs("tabUpdate"), //template buscado do contacts.jsx
+    selectTab("tabUpdate"), //template buscado do contacts.jsx
+    initialize("contactsForm", contact), //template buscado do contactsForm.jsx
   ];
 }
 
 export function showDelete(contact) {
   return [
-    showTabs("tabDelete"),
-    selectTab("tabDelete"),
-    initialize("contactsForm", contact),
+    showTabs("tabDelete"), //template buscado do contacts.jsx
+    selectTab("tabDelete"), //template buscado do contacts.jsx
+    initialize("contactsForm", contact), //template buscado do contactsForm.jsx
   ];
 }
 
 export function init(userId) {
   return [
-    showTabs("tabList", "tabCreate"),
-    selectTab("tabList"),
-    getList(userId),
-    initialize("contactsForm", INITIAL_VALUES),
+    showTabs("tabList", "tabCreate"), //Exibindo as opções de listar e incluir
+    selectTab("tabList"), //Exibindo a lista dos contatos
+    getList(userId), //para o usuário logado (id)
+    initialize("contactsForm", INITIAL_VALUES), //reseta o formulário de contatos
   ];
+  //------------------------------------
 }

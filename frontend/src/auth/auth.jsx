@@ -13,18 +13,21 @@ import Input from '../common/form/inputAuth'
 class Auth extends Component {
     constructor(props) {
         super(props)
-        this.state = { loginMode: true }
+        this.state = { loginMode: true } //quando abrir a página, entra direto no login, estado 0
     }
     changeMode() {
-        this.setState({ loginMode: !this.state.loginMode }) //valida o que o usuário quer fazer, se logar ou cadastrar
+        this.setState({ loginMode: !this.state.loginMode }) //se o usuário quiser se cadastrar, muda o estado para 1
     }
     onSubmit(values) {
         const { login, signup } = this.props
-        this.state.loginMode ? login(values) : signup(values)
+        this.state.loginMode ? login(values) : signup(values) //pega os valores JSON da opção LOGIN: Usuario e senha / CADASTRO Nome, Usuario e Senha
     }
     render() {
-        const { loginMode } = this.state
+        const { loginMode } = this.state // aqui ja é passado o valor do que deseja ser feito
         const { handleSubmit } = this.props
+        //A função handleSubmit() faz duas coisas: 
+        //Registra o valor atual do elemento de entrada(input) sempre que o formulário for enviado; 
+        //Impede o comportamento padrão do formulário HTML de navegar para uma nova página. 
         return (
             <div className="login-box">
                 <div className="login-logo"><b>Agenda Eletrônica</b></div>
@@ -41,7 +44,7 @@ class Auth extends Component {
                             <Grid cols="4">
                                 <button type="submit"
                                     className="btn btn-primary btn-block btn-flat">
-                                    {loginMode ? 'Entrar' : 'Registrar'}
+                                    {loginMode ? 'Entrar' : 'Registrar'} 
                                 </button>
                             </Grid>
                         </Row>

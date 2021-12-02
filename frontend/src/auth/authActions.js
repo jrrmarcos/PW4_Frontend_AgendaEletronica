@@ -1,6 +1,7 @@
 import { toastr } from "react-redux-toastr";
 import axios from "axios";
 import consts from "../consts";
+import Auth from '../auth/auth'
 
 export function login(values) {
   return submit(values, `${consts.API_URL}/login`);

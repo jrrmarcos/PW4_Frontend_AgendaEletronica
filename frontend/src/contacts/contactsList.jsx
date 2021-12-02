@@ -12,6 +12,9 @@ class ContactsList extends Component {
     renderRows() {
         const list = this.props.contactsList || []
         return list.map(bc => (
+            //Objeto mostrado ao montar o componente Lista de Contatos
+            //No caso, abaixo é exibido o nome, e-mail e telefone
+            //Os botões nas ações, chamam as funções do appointmentActions.js e fazem o que foi definido lá
             <tr key={bc.id}>
                 <td>{bc.nome}</td>
                 <td>{bc.email}</td>
@@ -28,6 +31,7 @@ class ContactsList extends Component {
         ))
     }
 
+    //Página montada com headers e funcionalidades html
     render() {
         return (
             <div>
@@ -49,6 +53,11 @@ class ContactsList extends Component {
     }
 }
 
-const mapStateToProps = state => ({ contactsList: state.contacts.contactsList })
-const mapDispatchToProps = dispatch => bindActionCreators({ getList, showUpdate, showDelete }, dispatch)
+const mapStateToProps = state => ({
+     contactsList: state.contacts.contactsList 
+    })
+const mapDispatchToProps = dispatch => bindActionCreators({ 
+    getList, showUpdate, showDelete 
+}, dispatch)
+
 export default connect(mapStateToProps, mapDispatchToProps)(ContactsList)
