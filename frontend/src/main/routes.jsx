@@ -1,7 +1,7 @@
 import React from 'react'
 import { Router, Route, IndexRoute, Redirect, hashHistory } from 'react-router'
 import AuthOrApp from './authOrApp'
-import Dashboard from '../dashboard/dashboard'
+import Dashboard from '../common/dashboard/dashboard'
 import Contacts from '../contacts/contacts'
 import Appointment from '../appointment/appointment'
 
