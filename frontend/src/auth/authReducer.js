@@ -1,6 +1,6 @@
 const userKey = "agenda_user";
 
-const INITIAL_STATE = {
+const INITIAL_STATE = { //store onde é armazenado informações
   user: JSON.parse(localStorage.getItem(userKey)),
   validToken: false,
 };

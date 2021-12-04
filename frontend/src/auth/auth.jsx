@@ -19,8 +19,9 @@ class Auth extends Component {
         this.setState({ loginMode: !this.state.loginMode }) //se o usuário quiser se cadastrar, muda o estado para 1
     }
     onSubmit(values) {
-        const { login, signup } = this.props
+        const {  login, signup } = this.props
         this.state.loginMode ? login(values) : signup(values) //pega os valores JSON da opção LOGIN: Usuario e senha / CADASTRO Nome, Usuario e Senha
+        this.state.loginMode = true
     }
     render() {
         const { loginMode } = this.state // aqui ja é passado o valor do que deseja ser feito
@@ -50,7 +51,6 @@ class Auth extends Component {
                         </Row>
                     </form>
                     <br />
-                    
                     <a onClick={() => this.changeMode()}>
                     <center>    
                         {loginMode ? 'É novo? Se cadastre!' :'Já é cadastrado? Entre aqui'}

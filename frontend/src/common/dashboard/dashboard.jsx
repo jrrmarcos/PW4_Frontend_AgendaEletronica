@@ -18,7 +18,7 @@ export default class Dashboard extends Component {
                     <Row>
                         <InfoBox cols='10 6' color='blue' icon='phone-square'
                             title={`CONTATOS`} text='Gerencie seus contatos' />
-                        <InfoBox cols='12 6' color='blue' icon='calendar'
+                        <InfoBox cols='12 6' color='red' icon='calendar'
                             title={`COMPROMISSOS`} text='Organize seus compromissos' />
                     </Row>
                 </Content>

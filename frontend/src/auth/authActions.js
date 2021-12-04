@@ -3,28 +3,34 @@ import axios from "axios";
 import consts from "../consts";
 import Auth from '../auth/auth'
 
-export function login(values) {
-  return submit(values, `${consts.API_URL}/login`);
+export function login(values) { //values é o valor que está no formulário
+  return submit(0, values, `${consts.API_URL}/login`);
 }
 
 export function signup(values) {
   values.admin = 0;
-  return submit(values, `${consts.API_URL}/adicionarUsuario`);
+  return submit(1, values, `${consts.API_URL}/adicionarUsuario`);
 }
 
 export function logout() {
   return { type: "TOKEN_VALIDATED", payload: false };
 }
 
-function submit(values, url) {
+function submit(tipoLogin, values, url) { //valor do formulário e url que precisa mandar
   return (dispatch) => {
     axios
-      .post(url, values)
-      .then((resp) => {
-        dispatch([{ type: "USER_FETCHED", payload: resp.data }]);
+      .post(url, values) //post (pq eu mando um objeto) e tanto login quando signup são posts
+      .then((resp) => { //se isso for feito com sucesso e não teve nenhum problema na requisição   
+        if(tipoLogin==0) {
+          toastr.success("Bem vindo, " + resp.data.nome + "!");
+          dispatch([{ type: "USER_FETCHED", payload: resp.data }]); 
+        } else {
+          toastr.success(resp.data);
+        }
       })
       .catch((e) => {
-        if (e.response.status == 409) {
+        console.log(e)
+        if (e.response.status == 400) {
           if (
             typeof e.response.data != "string" &&
             e.response.data.length > 0
@@ -32,10 +38,10 @@ function submit(values, url) {
             e.response.data.forEach((error) => toastr.error("Erro", error.msg));
           }
           if (typeof e.response.data == "string") {
-            toastr.error("Erro", e.response.data);
+            toastr.error(e.response.data);
           }
         } else {
-          toastr.error("Erro", "Não foi possível atender a requisição!");
+          toastr.error("Não foi possível atender a requisição!");
         }
       });
   };
